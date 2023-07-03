@@ -86,7 +86,7 @@ export class RegistrationComponent {
   // Custom validator function for EAN and FEINNumber length
   lengthValidator(control: AbstractControl): ValidationErrors | null {
     const eanNumber = control.value;
-    if (eanNumber && eanNumber.length !== 16) {
+    if (eanNumber && eanNumber.length !== 9) {
       return { invalidLength: true };
     }
     return null;
@@ -214,7 +214,13 @@ onPayrollEndDaySelected(event: MatDatepickerInputEvent<Date>) {
           this.isButtonDisabled = false;
           this.showSnackbar("We have sent you the verification mail please confirm", "OK");
           this.employeEmailID=emailID;
-        } else {
+        }
+        else if(response == 2)
+        {
+          this.showSnackbar("We have sent you the verification mail please confirm", "OK");
+          this.employeEmailID=emailID;
+        }
+        else {
           this.showSnackbar("Something went wrong please try again", "Close");
         }
       },

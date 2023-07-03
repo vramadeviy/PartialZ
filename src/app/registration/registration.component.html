@@ -37,11 +37,11 @@
                     <ng-template matStepLabel>Employer Authorization</ng-template>
                     <mat-form-field>
                         <mat-label>EAN Number</mat-label>
-                        <input matInput placeholder="EAN Number" formControlName="EANNumber" maxlength="16" required>
+                        <input matInput placeholder="EAN Number" formControlName="EANNumber" maxlength="9" required>
                       </mat-form-field>
                       <mat-form-field>
                         <mat-label>FEIN Number</mat-label>
-                        <input matInput placeholder="FEIN Number" formControlName="FEINNumber" maxlength="16" required>
+                        <input matInput placeholder="FEIN Number" formControlName="FEINNumber" maxlength="9" required>
                       </mat-form-field>
                     <div>
                       <button mat-button matStepperPrevious mat-raised-button color="primary"  style="float: left;">Back</button>
@@ -59,13 +59,13 @@
             <mat-grid-tile  [colspan]="1" [rowspan]="1">
                 <mat-form-field>
                     <mat-label>EAN Number</mat-label>
-                    <input matInput placeholder="EAN Number" formControlName="aEANNumber" maxlength="16" required>
+                    <input matInput placeholder="EAN Number" formControlName="aEANNumber" maxlength="9" required>
                   </mat-form-field>                      
             </mat-grid-tile>
             <mat-grid-tile  [colspan]="1" [rowspan]="1">
                 <mat-form-field>
                     <mat-label>FEIN Number</mat-label>
-                    <input matInput placeholder="FEIN Number" formControlName="aFEINNumber" maxlength="16" required>
+                    <input matInput placeholder="FEIN Number" formControlName="aFEINNumber" maxlength="9" required>
                   </mat-form-field>                     
             </mat-grid-tile>
             <mat-grid-tile  [colspan]="2" [rowspan]="1">
