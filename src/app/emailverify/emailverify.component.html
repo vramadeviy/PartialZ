@@ -1,0 +1,14 @@
+<div *ngIf="!done" class="verification-message">
+    <h2>We are verifying your account</h2>
+    <p>Sit back and relax!</p>
+  </div>
+
+<div *ngIf="done" class="success-message">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4CAF50" width="64px" height="64px">
+      <path d="M0 0h24v24H0z" fill="none"/>
+      <path d="M20 12l-8 8-4-4 1.41-1.41L12 16.17l6.59-6.59L20 12z"/>
+    </svg>
+    <h2>Email Verified Successfully</h2>
+    <p>You can now log in to your account</p>
+    <a href="/login" class="login-link" color="primary">Log In</a>
+  </div>
