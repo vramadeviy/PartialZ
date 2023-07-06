@@ -6,7 +6,7 @@ import { Component, NgModule } from '@angular/core';
   styleUrls: ['./app.component.scss']
 }) 
 export class AppComponent {  
-  title = 'PartialZ';
+  title = 'Partials';
   public isAuthenticated = false;
   
   public logout(): void {

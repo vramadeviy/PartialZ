@@ -31,12 +31,12 @@ export class RegistrationComponent {
     Confirmpassword: ['', Validators.required],
   }, { validator: this.passwordMatchValidator });
   secondFormGroup = this._formBuilder.group({
-    EANNumber: ['', [Validators.required, this.lengthValidator]],
+    EANNumber: ['', [Validators.required, this.eanlengthValidator]],
     FEINNumber: ['', [Validators.required, this.lengthValidator]],
   });
   thirdFormGroup = this._formBuilder.group({
-    aEANNumber: ['', [Validators.required,this.lengthValidator]],
-    aFEINNumber: ['', [Validators.required, this.lengthValidator]],
+    aEANNumber: ['',Validators.required],
+    aFEINNumber: ['',Validators.required],
     Email: ['', [Validators.required, Validators.email]],
     employerName: ['', Validators.required],
     employerAddress: ['', Validators.required],
@@ -84,9 +84,16 @@ export class RegistrationComponent {
     return null;
   }
   // Custom validator function for EAN and FEINNumber length
-  lengthValidator(control: AbstractControl): ValidationErrors | null {
+  eanlengthValidator(control: AbstractControl): ValidationErrors | null {
     const eanNumber = control.value;
-    if (eanNumber && eanNumber.length !== 9) {
+    if (eanNumber !=10 && eanNumber.length !== 10) {
+      return { invalidLength: true };
+    }
+    return null;
+  }
+  lengthValidator(control: AbstractControl): ValidationErrors | null {
+    const feinNumber = control.value;
+    if (feinNumber !=9 && feinNumber.length !== 9) {
       return { invalidLength: true };
     }
     return null;
@@ -151,34 +158,33 @@ onPayrollEndDaySelected(event: MatDatepickerInputEvent<Date>) {
       employerAddress = this.thirdFormGroup.get('employerAddress'),
       city = this.thirdFormGroup.get('City'),
       state = this.thirdFormGroup.get('State'),
-      zipcode = this.thirdFormGroup.get('Zipcode'),
+      ZIP = this.thirdFormGroup.get('Zipcode'),
       firstName = this.thirdFormGroup.get('firstName'),
       lastName = this.thirdFormGroup.get('lastName'),
       businessTitle = this.thirdFormGroup.get('businessTitle'),
-      phoneNUmber = this.thirdFormGroup.get('Phone'),
-      payrollEndDay = this.thirdFormGroup.get('payrollEndDay');;
+      ContactPhone = this.thirdFormGroup.get('Phone'),
+      payrollEndDay = this.thirdFormGroup.get('payrollEndDay'),
+      terms=this.thirdFormGroup.get('terms');
     if (this.thirdFormGroup.valid) {
       if(eanNumber!==null && feinNumber!==null && email!==null &&
         employerName!==null && employerAddress!==null && city!==null&&
-        state!==null && zipcode!==null && firstName!==null &&
-        lastName!==null && businessTitle!==null && phoneNUmber!==null && payrollEndDay!==null
+        state!==null && ZIP!==null && firstName!==null &&
+        lastName!==null && businessTitle!==null && ContactPhone!==null && payrollEndDay!==null
         ){
-          
-
           const body = {
             Eannumber: eanNumber.value,
             Feinnumber: feinNumber.value,
             EmployerEmail:email.value,
-            Name:employerName.value,
+            EmployerName:employerName.value,
             Address:employerAddress.value,
             City:city.value,
             State:state.value,
-            ZipCode:zipcode.value,
-            FirstName:firstName.value,
-            LastName:lastName.value,
+            ZIP:ZIP.value,
+            ContactFirstName:firstName.value,
+            ContactLastName:lastName.value,
             Email:this.employeEmailID,
             BusinessTitle:businessTitle.value,
-            PhoneNumber:phoneNUmber.value,
+            ContactPhone:ContactPhone.value,
             PayrollEndDay:payrollEndDay.value
           };
          this.AffidavitRegistration(body);
@@ -187,22 +193,7 @@ onPayrollEndDaySelected(event: MatDatepickerInputEvent<Date>) {
       this.showSnackbar("Invalid data", "Close");
     }
   }
-  //Api Calls
-  performGetRequest(): void {
-    this._partialzService.get<any>('https://localhost:7178/api/Employee?EmailID=rakhi.rakesh237@gamil.com').subscribe(
-      (response) => {
-        console.log(response);
-        if (response == 1) {
-          this.showSnackbar("We have sent you the verification mail please confirm", "OK");
-        } else {
-          this.showSnackbar("Something went wrong please try again", "Close");
-        }
-      },
-      (error) => {
-        this.showSnackbar('Error occurred while while processing your request.', "Close");
-      }
-    );
-  }
+ 
   sendVeifyemail(emailID: string, Password: string): void {
     const body = {
       Email: emailID,
@@ -235,15 +226,24 @@ onPayrollEndDaySelected(event: MatDatepickerInputEvent<Date>) {
       Feinnumber: feinnumber
     };
     this._partialzService.post<any>('https://localhost:7178/api/Employer', body).subscribe(
-      (response) => {
-        if (response == 1) {
+      (data) => {
+       // if(data!=null)
+        {
           this.isButtonHidden = false;
           this.showSnackbar("Authorization successful,Please click on Next", "OK");
-          this.thirdFormGroup.get('aEANNumber')?.setValue(eannumber);
-          this.thirdFormGroup.get('aFEINNumber')?.setValue(feinnumber);
-        } else {
-          this.showSnackbar("Something went wrong please try again", "Close");
-        }
+          console.log(data);
+          this.thirdFormGroup.get('aEANNumber')?.setValue(data.eannumber);
+          this.thirdFormGroup.get('aFEINNumber')?.setValue(data.feinnumber);
+          this.thirdFormGroup.get('employerName')?.setValue(data.employerName);
+          this.thirdFormGroup.get('employerAddress')?.setValue(data.address);
+          this.thirdFormGroup.get('City')?.setValue(data.city);
+          this.thirdFormGroup.get('State')?.setValue(data.state);
+          this.thirdFormGroup.get('Zipcode')?.setValue(data.zip);
+          this.thirdFormGroup.get('Email')?.setValue(this.employeEmailID);
+        } 
+        // else {
+        //   this.showSnackbar("Something went wrong please try again", "Close");
+        // }
       },
       (error) => {
         this.showSnackbar('Error occurred while while processing your request.', "Close");
@@ -254,7 +254,7 @@ onPayrollEndDaySelected(event: MatDatepickerInputEvent<Date>) {
     this._partialzService.post<any>('https://localhost:7178/api/Employer/AffidavitRegistration', body).subscribe(
       (response) => {
         if (response == 1) {         
-          this.showSnackbar("Application successfully submitted", "OK");
+          this.showSnackbar("Registered successfully submitted", "OK");
           this.router.navigate(['/profile'], { queryParams: { type: '2' } });
         } else {
           this.showSnackbar("Something went wrong please try again", "Close");

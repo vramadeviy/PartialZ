@@ -16,7 +16,7 @@
                         </button>
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-label>Enter your password</mat-label>
+                        <mat-label>Enter your confirm password</mat-label>
                         <input matInput [type]="cHide ? 'password' : 'text'" formControlName="Confirmpassword">
                         <button mat-icon-button matSuffix (click)="cHide = !cHide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="cHide">
                           <mat-icon>{{cHide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -37,7 +37,7 @@
                     <ng-template matStepLabel>Employer Authorization</ng-template>
                     <mat-form-field>
                         <mat-label>EAN Number</mat-label>
-                        <input matInput placeholder="EAN Number" formControlName="EANNumber" maxlength="9" required>
+                        <input matInput placeholder="EAN Number" formControlName="EANNumber" maxlength="10" required>
                       </mat-form-field>
                       <mat-form-field>
                         <mat-label>FEIN Number</mat-label>
@@ -45,7 +45,7 @@
                       </mat-form-field>
                     <div>
                       <button mat-button matStepperPrevious mat-raised-button color="primary"  style="float: left;">Back</button>
-                      <button mat-button mat-raised-button color="primary" style="float: right;" [hidden]="!isButtonHidden" (click)="SaveEANandFEIN()">Authoriz</button>
+                      <button mat-button mat-raised-button color="primary" style="float: right;" [hidden]="!isButtonHidden" (click)="SaveEANandFEIN()">Authorize</button>
                       <button mat-button matStepperNext mat-raised-button color="primary" style="float: right;" [hidden]="isButtonHidden">Next</button>
                     </div>
                   </form>
@@ -59,7 +59,7 @@
             <mat-grid-tile  [colspan]="1" [rowspan]="1">
                 <mat-form-field>
                     <mat-label>EAN Number</mat-label>
-                    <input matInput placeholder="EAN Number" formControlName="aEANNumber" maxlength="9" required>
+                    <input matInput placeholder="EAN Number" formControlName="aEANNumber" maxlength="10" required>
                   </mat-form-field>                      
             </mat-grid-tile>
             <mat-grid-tile  [colspan]="1" [rowspan]="1">
